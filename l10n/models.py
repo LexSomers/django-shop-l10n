@@ -78,7 +78,7 @@ class AdminArea(models.Model):
     Administrative Area level 1 for a country.  For the US, this would be the
     states
     """
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
     name = models.CharField(_('Admin Area name'), max_length=60, )
     abbrev = models.CharField(_('Postal Abbreviation'), max_length=3,
                               null=True, blank=True)
@@ -106,12 +106,12 @@ ADDRESS_TEMPLATE = getattr(settings, 'SHOP_ADDRESS_TEMPLATE',
                            BASE_ADDRESS_TEMPLATE)
 class Address(models.Model):
     user_shipping = models.OneToOneField(User, related_name='shipping_address',
-                                         blank=True, null=True)
+                                         blank=True, null=True, on_delete=models.CASCADE)
     user_billing = models.OneToOneField(User, related_name='billing_address',
-                                        blank=True, null=True)
+                                        blank=True, null=True, on_delete=models.CASCADE)
 
-    country = models.ForeignKey(Country, verbose_name=_('country'))
-    state = models.ForeignKey(AdminArea, verbose_name=_('state'))
+    country = models.ForeignKey(Country, verbose_name=_('country'), on_delete=models.CASCADE)
+    state = models.ForeignKey(AdminArea, verbose_name=_('state'), on_delete=models.CASCADE)
     city = models.CharField(_('City'), max_length=20)
 
     address = models.CharField(_('Address'), max_length=255)
